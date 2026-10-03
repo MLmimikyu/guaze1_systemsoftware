@@ -1,0 +1,8 @@
+node_modules/
+.pnpm-store/
+.electron-cache/
+tmp/
+.env
+coverage/
+dist/
+*.log
