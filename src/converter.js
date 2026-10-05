@@ -6,7 +6,7 @@ import { pathToFileURL } from "node:url";
 
 import { BrowserWindow, session } from "electron";
 
-import { getFileKind, getOutputName } from "./file-types.js";
+import { getConvertedOutputName, getFileKind, getOutputName, PDF_OUTPUT_EXTENSIONS } from "./file-types.js";
 
 const IMAGE_MIME_TYPES = {
   ".bmp": "image/bmp",
@@ -130,6 +130,19 @@ async function nextAvailablePath(directory, fileName) {
   return candidate;
 }
 
+async function nextAvailableImageStem(directory, fileName) {
+  const extension = path.extname(fileName);
+  const stem = path.basename(fileName, extension);
+  let candidateStem = path.join(directory, stem);
+  let index = 1;
+
+  while (await fileExists(`${candidateStem}-1${extension}`)) {
+    candidateStem = path.join(directory, `${stem} (${index})`);
+    index += 1;
+  }
+  return candidateStem;
+}
+
 async function findLibreOffice() {
   const candidates = [
     process.env.ProgramFiles && path.join(process.env.ProgramFiles, "LibreOffice", "program", "soffice.exe"),
@@ -139,6 +152,22 @@ async function findLibreOffice() {
       .split(path.delimiter)
       .filter(Boolean)
       .map((directory) => path.join(directory, process.platform === "win32" ? "soffice.exe" : "soffice")),
+  ].filter(Boolean);
+
+  for (const candidate of candidates) {
+    if (await fileExists(candidate)) return candidate;
+  }
+  return null;
+}
+
+async function findCommand(commandName) {
+  const executableName = process.platform === "win32" ? `${commandName}.exe` : commandName;
+  const candidates = [
+    process.resourcesPath && path.join(process.resourcesPath, "poppler", "bin", executableName),
+    ...String(process.env.PATH ?? "")
+      .split(path.delimiter)
+      .filter(Boolean)
+      .map((directory) => path.join(directory, executableName)),
   ].filter(Boolean);
 
   for (const candidate of candidates) {
@@ -179,7 +208,48 @@ async function convertOffice(inputPath, outputPath) {
 }
 
 export async function getCapabilities() {
-  return { office: Boolean(await findLibreOffice()) };
+  const [office, pdftoppm, pdftotext] = await Promise.all([
+    findLibreOffice(),
+    findCommand("pdftoppm"),
+    findCommand("pdftotext"),
+  ]);
+  return { office: Boolean(office), pdfImages: Boolean(pdftoppm), pdfText: Boolean(pdftotext) };
+}
+
+export async function convertPdf(inputPath, requestedDirectory, outputFormat) {
+  const normalizedFormat = String(outputFormat).toLowerCase();
+  if (!PDF_OUTPUT_EXTENSIONS.has(normalizedFormat)) throw new Error("지원하지 않는 출력 형식입니다.");
+  if (path.extname(inputPath).toLowerCase() !== ".pdf") throw new Error("PDF 파일만 선택할 수 있습니다.");
+
+  const fileStats = await stat(inputPath);
+  if (!fileStats.isFile()) throw new Error("일반 파일만 변환할 수 있습니다.");
+  if (fileStats.size > 200 * 1024 * 1024) throw new Error("파일 크기는 200MB 이하여야 합니다.");
+
+  const outputDirectory = requestedDirectory || path.dirname(inputPath);
+  await mkdir(outputDirectory, { recursive: true });
+  const outputName = getConvertedOutputName(inputPath, normalizedFormat);
+  const desiredPath = await nextAvailablePath(outputDirectory, outputName);
+
+  if (normalizedFormat === "txt") {
+    const executable = await findCommand("pdftotext");
+    if (!executable) throw new Error("TXT 변환에는 Poppler(pdftotext)가 필요합니다.");
+    try {
+      await runProcess(executable, ["-enc", "UTF-8", inputPath, desiredPath]);
+      return desiredPath;
+    } catch (error) {
+      await rm(desiredPath, { force: true });
+      throw error;
+    }
+  }
+
+  const executable = await findCommand("pdftoppm");
+  if (!executable) throw new Error("이미지 변환에는 Poppler(pdftoppm)가 필요합니다.");
+  const outputStem = await nextAvailableImageStem(outputDirectory, outputName);
+  const imageArguments = normalizedFormat === "jpg" ? ["-jpeg", "-r", "150"] : ["-png", "-r", "150"];
+  await runProcess(executable, [...imageArguments, inputPath, outputStem]);
+  const firstPagePath = `${outputStem}-1.${normalizedFormat}`;
+  if (!(await fileExists(firstPagePath))) throw new Error("PDF 페이지 이미지를 만들지 못했습니다.");
+  return firstPagePath;
 }
 
 export async function convertFile(inputPath, requestedDirectory) {

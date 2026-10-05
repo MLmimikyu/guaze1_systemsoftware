@@ -3,7 +3,7 @@ import { fileURLToPath, pathToFileURL } from "node:url";
 
 import { app, BrowserWindow, dialog, ipcMain, shell } from "electron";
 
-import { convertFile, getCapabilities } from "./converter.js";
+import { convertFile, convertPdf, getCapabilities } from "./converter.js";
 
 const currentDirectory = path.dirname(fileURLToPath(import.meta.url));
 
@@ -27,14 +27,15 @@ function createWindow() {
 }
 
 app.whenReady().then(() => {
-  ipcMain.handle("files:select", async () => {
+  ipcMain.handle("files:select", async (_event, mode = "to-pdf") => {
+    const fromPdf = mode === "from-pdf";
     const result = await dialog.showOpenDialog({
-      title: "PDF로 변환할 파일 선택",
+      title: fromPdf ? "변환할 PDF 선택" : "PDF로 변환할 파일 선택",
       properties: ["openFile", "multiSelections"],
       filters: [
         {
-          name: "지원 파일",
-          extensions: [
+          name: fromPdf ? "PDF 파일" : "지원 파일",
+          extensions: fromPdf ? ["pdf"] : [
             "bmp", "gif", "jpeg", "jpg", "png", "webp",
             "log", "md", "text", "txt", "htm", "html",
             "doc", "docx", "odp", "ods", "odt", "ppt", "pptx", "rtf", "xls", "xlsx",
@@ -56,6 +57,9 @@ app.whenReady().then(() => {
   ipcMain.handle("app:capabilities", () => getCapabilities());
   ipcMain.handle("file:convert", (_event, inputPath, outputDirectory) =>
     convertFile(inputPath, outputDirectory),
+  );
+  ipcMain.handle("pdf:convert", (_event, inputPath, outputDirectory, outputFormat) =>
+    convertPdf(inputPath, outputDirectory, outputFormat),
   );
   ipcMain.handle("file:show", (_event, outputPath) => shell.showItemInFolder(outputPath));
 

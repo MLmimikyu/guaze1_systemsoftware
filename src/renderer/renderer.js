@@ -5,12 +5,22 @@ const supportedExtensions = new Set([
 ]);
 
 const state = {
+  mode: "to-pdf",
   files: [],
+  outputFormat: "png",
   outputDirectory: null,
   converting: false,
   revealAfterConversion: false,
 };
 const dropZone = document.querySelector("#drop-zone");
+const toPdfModeButton = document.querySelector("#to-pdf-mode");
+const fromPdfModeButton = document.querySelector("#from-pdf-mode");
+const heroTitle = document.querySelector("#hero-title");
+const heroLead = document.querySelector("#hero-lead");
+const dropTitle = document.querySelector("#drop-title");
+const formatHint = document.querySelector("#format-hint");
+const formatSetting = document.querySelector("#format-setting");
+const outputFormat = document.querySelector("#output-format");
 const selectFilesButton = document.querySelector("#select-files");
 const queuePanel = document.querySelector("#queue-panel");
 const fileList = document.querySelector("#file-list");
@@ -45,7 +55,8 @@ function addFiles(entries) {
 
   for (const entry of entries) {
     const extension = extensionOf(entry.path);
-    if (!supportedExtensions.has(extension)) {
+    const supported = state.mode === "from-pdf" ? extension === "pdf" : supportedExtensions.has(extension);
+    if (!supported) {
       unsupported += 1;
       continue;
     }
@@ -76,7 +87,7 @@ function render() {
   convertButton.disabled = pendingCount === 0 || state.converting;
   convertButton.querySelector("span:first-child").textContent = state.converting
     ? "변환 중…"
-    : `PDF로 변환${pendingCount ? ` (${pendingCount})` : ""}`;
+    : `${state.mode === "from-pdf" ? `${state.outputFormat.toUpperCase()}로 변환` : "PDF로 변환"}${pendingCount ? ` (${pendingCount})` : ""}`;
 
   fileList.replaceChildren();
   for (const file of state.files) {
@@ -105,9 +116,42 @@ function render() {
 }
 
 async function chooseFiles() {
-  const paths = await window.dropPdf.selectFiles();
+  const paths = await window.dropPdf.selectFiles(state.mode);
   addFiles(paths.map((filePath) => ({ path: filePath, name: nameOf(filePath) })));
 }
+
+function switchMode(mode) {
+  if (state.converting || state.mode === mode) return;
+  state.mode = mode;
+  state.files = [];
+  notice.textContent = "";
+  const fromPdf = mode === "from-pdf";
+  toPdfModeButton.classList.toggle("active", !fromPdf);
+  fromPdfModeButton.classList.toggle("active", fromPdf);
+  toPdfModeButton.setAttribute("aria-selected", String(!fromPdf));
+  fromPdfModeButton.setAttribute("aria-selected", String(fromPdf));
+  heroTitle.innerHTML = fromPdf ? "PDF를 놓고<br><em>원하는 파일로.</em>" : "파일을 놓으면<br><em>PDF가 됩니다.</em>";
+  heroLead.innerHTML = fromPdf
+    ? "PDF를 선택하고 PNG, JPG 또는 TXT로 변환하세요.<br>모든 변환은 이 컴퓨터 안에서 처리됩니다."
+    : "파일을 끌어다 놓으면 즉시 변환하고 저장 위치를 열어드립니다.<br>모든 변환은 이 컴퓨터 안에서 처리됩니다.";
+  dropTitle.textContent = fromPdf ? "여기에 PDF를 놓으면 바로 변환합니다" : "여기에 놓으면 바로 PDF로 변환합니다";
+  formatHint.textContent = fromPdf ? "PDF → PNG · JPG · TXT" : "JPG · PNG · WEBP · TXT · MD · HTML · OFFICE";
+  formatSetting.hidden = !fromPdf;
+  render();
+}
+
+toPdfModeButton.addEventListener("click", () => switchMode("to-pdf"));
+fromPdfModeButton.addEventListener("click", () => switchMode("from-pdf"));
+outputFormat.addEventListener("change", () => {
+  state.outputFormat = outputFormat.value;
+  for (const file of state.files) {
+    file.outputPath = null;
+    file.processed = false;
+    file.error = false;
+    file.status = "대기 중";
+  }
+  render();
+});
 
 selectFilesButton.addEventListener("click", (event) => {
   event.stopPropagation();
@@ -163,7 +207,7 @@ async function convertPendingFiles({ revealOnComplete = false } = {}) {
   if (state.converting) return;
 
   state.converting = true;
-  notice.textContent = "파일을 PDF로 변환하고 있습니다.";
+  notice.textContent = state.mode === "from-pdf" ? `PDF를 ${state.outputFormat.toUpperCase()}로 변환하고 있습니다.` : "파일을 PDF로 변환하고 있습니다.";
   let succeeded = 0;
   let failed = 0;
   let lastOutputPath = null;
@@ -177,7 +221,9 @@ async function convertPendingFiles({ revealOnComplete = false } = {}) {
     file.error = false;
     render();
     try {
-      file.outputPath = await window.dropPdf.convertFile(file.path, state.outputDirectory);
+      file.outputPath = state.mode === "from-pdf"
+        ? await window.dropPdf.convertPdf(file.path, state.outputDirectory, state.outputFormat)
+        : await window.dropPdf.convertFile(file.path, state.outputDirectory);
       file.status = "완료";
       lastOutputPath = file.outputPath;
       succeeded += 1;
@@ -208,8 +254,17 @@ convertButton.addEventListener("click", async () => {
   await convertPendingFiles();
 });
 
-window.dropPdf.getCapabilities().then(({ office }) => {
-  officeStatus.textContent = office ? "Office 문서 변환 사용 가능" : "Office 문서는 LibreOffice 설치 시 지원";
+window.dropPdf.getCapabilities().then(({ office, pdfImages, pdfText }) => {
+  outputFormat.querySelector('option[value="png"]').disabled = !pdfImages;
+  outputFormat.querySelector('option[value="jpg"]').disabled = !pdfImages;
+  outputFormat.querySelector('option[value="txt"]').disabled = !pdfText;
+  if (!pdfImages && pdfText) {
+    outputFormat.value = "txt";
+    state.outputFormat = "txt";
+  }
+  const pdfSupport = pdfImages || pdfText ? "PDF 역변환 사용 가능" : "PDF 역변환은 Poppler 설치 시 지원";
+  officeStatus.textContent = `${office ? "Office 변환 가능" : "Office: LibreOffice 필요"} · ${pdfSupport}`;
+  render();
 });
 
 render();

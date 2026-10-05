@@ -81,6 +81,9 @@ button { color: inherit; cursor: pointer; }
 }
 
 main { flex: 1; padding: 58px 0 34px; }
+.mode-switch { width: fit-content; margin: 0 auto 30px; padding: 4px; display: flex; gap: 4px; border: 1px solid rgba(23, 35, 31, 0.16); border-radius: 12px; background: rgba(255, 255, 255, 0.5); }
+.mode-button { padding: 9px 18px; border: 0; border-radius: 8px; background: transparent; color: #68756f; font-size: 12px; font-weight: 900; }
+.mode-button.active { background: #173f35; color: #f7f8e9; }
 .intro { text-align: center; margin-bottom: 34px; }
 
 .eyebrow {
@@ -167,6 +170,7 @@ h1 em { color: #2e6958; font-weight: 500; }
 
 .secondary-button:hover { border-color: #173f35; }
 .secondary-button.compact { padding: 9px 13px; white-space: nowrap; }
+.format-select { min-width: 150px; padding: 10px 34px 10px 12px; border: 1px solid rgba(23, 35, 31, 0.25); border-radius: 9px; background: #fffefa; color: #17231f; font: inherit; font-size: 13px; font-weight: 800; }
 
 .queue-panel {
   margin-top: 26px;

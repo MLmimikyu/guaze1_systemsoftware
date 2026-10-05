@@ -31,6 +31,8 @@ export const SUPPORTED_EXTENSIONS = new Set([
   ...OFFICE_EXTENSIONS,
 ]);
 
+export const PDF_OUTPUT_EXTENSIONS = new Set(["png", "jpg", "txt"]);
+
 export function getFileKind(filePath) {
   const extension = path.extname(filePath).toLowerCase();
 
@@ -44,4 +46,12 @@ export function getFileKind(filePath) {
 export function getOutputName(filePath) {
   const extension = path.extname(filePath);
   return `${path.basename(filePath, extension)}.pdf`;
+}
+
+export function getConvertedOutputName(filePath, outputFormat) {
+  const normalizedFormat = String(outputFormat).toLowerCase();
+  if (!PDF_OUTPUT_EXTENSIONS.has(normalizedFormat)) {
+    throw new Error("지원하지 않는 PDF 출력 형식입니다.");
+  }
+  return `${path.basename(filePath, path.extname(filePath))}.${normalizedFormat}`;
 }
