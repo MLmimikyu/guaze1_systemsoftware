@@ -8,6 +8,8 @@ This repo is a CSE406 **Phase 1 Scratch Project**: a small, local-only CRUD web 
 
 The app, "DropPDF", lives in `web/`. Its UI and messages are English; code comments are Korean. Run it by opening `web/index.html` in Chrome/Edge, or serve it with `python -m http.server 8000 --bind 127.0.0.1 --directory web` (`.claude/launch.json` does this for the preview pane). Node/pnpm are **not installed** on the author's machine; there is no build step. An older Electron version was removed from the repo.
 
+**Read [HANDOFF.md](HANDOFF.md) first** for the current status, open to-dos (poster and video deadlines, Mac checks), and the demo video script. It is written in Korean for the user. Update it when the status changes.
+
 ## web/ (zero-install browser app)
 
 **Hard constraint: it must keep working when opened from `file://` with no server and no internet.** Consequences:
