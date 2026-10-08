@@ -12,5 +12,11 @@ web/__test__/
 # 포스터 작업 파일 (저장소에 올리지 않음)
 poster/
 
-# 데모 영상 작업 파일 (저장소에 올리지 않음)
-demo/
+# 데모 영상 작업 파일 — 대본·샘플·스크립트만 올리고 사진 원본·녹음·녹화는 올리지 않음
+demo/photos/
+demo/work/
+demo/*.m4a
+demo/*.mp3
+demo/*.wav
+demo/*.mp4
+demo/*.srt

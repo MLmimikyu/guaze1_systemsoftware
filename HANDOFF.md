@@ -32,9 +32,9 @@ python3 -m http.server 8000 --bind 127.0.0.1 --directory web
 1. **포스터 제출 — LMS `cse406-phase1-poster-submission`, 10월 9일 13:00까지(팀당 1부).**
    - 포스터 파일은 Windows PC의 `poster/` 폴더에만 있다(저장소에 올리지 않기로 함 — `.gitignore`에 포함). Mac에서 하려면 따로 옮겨 올 것.
    - **최종본 완성(2026-10-08 저녁):** 이름(Hyeonmin Choi, Jaewu Yoo) 들어감, Mac 지원 반영(Browser 상자 "Chrome / Edge / Safari", Platform "Windows 11 / macOS (Safari 15.4+)"), 아키텍처 그림을 다시 그림(브라우저 탭 하나가 전체를 감싸는 구조 — 서버 없음, 라이브러리마다 역할 표시, CRUD 화살표는 app.js → IndexedDB). Tools는 예시처럼 도구+버전만 남김(IndexedDB는 그림에 있으므로 뺌). Platform은 사용자가 "macOS Golden Gate 27.0"으로 고침. 최종 `poster/DropPDF_poster.pdf` 내보냄. **남은 것: LMS 제출(사용자).**
-2. **3분 이내 YouTube 데모 영상** 녹화·업로드, 링크를 Phase 1 구글 시트에 입력. 대본은 아래.
+2. **3분 이내 YouTube 데모 영상** 녹화·업로드, 링크를 Phase 1 구글 시트에 입력. 대본은 [demo/README.md](demo/README.md).
    - **진행 계획(2026-10-08 합의):** 녹음은 사용자가, 나머지는 Claude가 한다.
-     1. ~~Claude: 샘플 파일 4개 만들기~~ — 완료(2026-10-08). `demo/samples/`에 `report.docx`, `sales.xlsx`, `trip-photos.zip`(사진 4장, 이름 1·2·3·10으로 자연 정렬 확인용), `brochure.pdf`(사진·색 배경·글자 섞인 1쪽). 사진은 직접 그린 풍경 그림(`demo/photos/`). 다시 만들려면 `demo/make-photos.ps1 demo/photos` → `powershell.exe -File demo/make-samples.ps1 demo` (Windows PowerShell 5.1로 실행 — PowerShell 7은 Office COM 값 설정이 깨짐). `demo/`는 저장소에 올리지 않음(`.gitignore`).
+     1. ~~Claude: 샘플 파일 4개 만들기~~ — 완료(2026-10-08). `demo/samples/`에 `report.docx`, `sales.xlsx`, `trip-photos.zip`(사진 4장, 이름 1·2·3·10으로 자연 정렬 확인용), `brochure.pdf`(사진·색 배경·글자 섞인 1쪽). 사진은 직접 그린 풍경 그림(`demo/photos/`). 다시 만들려면 `demo/make-photos.ps1 demo/photos` → `powershell.exe -File demo/make-samples.ps1 demo` (Windows PowerShell 5.1로 실행 — PowerShell 7은 Office COM 값 설정이 깨짐). 대본·샘플·스크립트는 저장소에 있고, 사진 원본(`demo/photos/`)·녹음·녹화 파일은 올리지 않음(`.gitignore`).
      2. **사용자(다음 차례): 대본을 통으로 한 번에 녹음** → `demo/narration.m4a`(폰 녹음기 파일 그대로, mp3/wav도 됨). 구간 사이에 **2초쯤 쉬기** — Claude가 쉰 곳으로 구간을 나눈다. 천천히 읽어서 전체 2:40 안팎.
      3. Claude: 보이지 않는 headless Chrome으로 앱을 대본대로 조작하며 화면 녹화(클릭 위치에 커서 표시). Word/PowerPoint 장면은 Office COM으로 결과 파일을 열어 내보낸 실제 화면 이미지로 대체.
      4. Claude: ffmpeg로 녹음의 쉬는 구간에 맞춰 장면을 붙이고, 변환 대기 시간 자르고, 영어 자막(SRT)을 넣어 3분 이내 MP4로 만든다.
@@ -56,41 +56,10 @@ python3 -m http.server 8000 --bind 127.0.0.1 --directory web
 ## 저장소에 없는 것 (Windows PC에만 있음)
 
 - `poster/` — 포스터 PPTX·PDF, 스크린샷
-- `demo/` — 영상용 샘플 파일·사진, 생성 스크립트, 녹음·녹화 파일
+- `demo/photos/`, 녹음·녹화 파일
 - `C:\Users\dchl7\Downloads\guaze1_old_backup` — 과제 안내 PDF, 옛 Electron 코드, 옛 `web.zip`
 - 브라우저 보관함 데이터(브라우저마다 따로 저장됨)
 
-## 영상 대본 (사용 방법만, 약 2:40)
+## 영상 대본
 
-준비: 보관함 비우기(Delete all), Word 열어 두기. 파일: `report.docx`, `sales.xlsx`, `trip-photos.zip`(사진 4장), `brochure.pdf`(사진 포함).
-
-**0:00–0:10 Intro** — 앱 첫 화면
-> "Hi, we're Hyeonmin Choi and Jaewu Yoo. This is DropPDF, a web app that converts files to and from PDF right in your browser. Nothing to install, and nothing is uploaded."
-
-**0:10–0:30 Add files** — 네 파일을 드롭, 목록 가리키기
-> "I just drag my files in: a Word report, an Excel sheet, a ZIP of trip photos, and a PDF brochure. Each row shows what it will become. For PDFs, I can choose the format right on the row: Word, PowerPoint, images, or text."
-
-**0:30–0:50 Convert one file** — `report.docx` 줄 Convert → Download → PDF 열기
-> "I can convert just one file. I click Convert on the report, and it's done. One click on Download, and here's the PDF."
-
-**0:50–1:10 Convert all + photo ZIP** — Convert all → ZIP 줄 Download → 페이지 넘기기
-> "Or I convert everything at once with Convert all. The ZIP of photos became a single PDF, one photo per page."
-
-**1:10–1:40 PDF → Word** — brochure Download → Word로 열기 → 원본과 나란히 → 단어 입력
-> "The brochure PDF became a Word file. The page looks just like the original. The photos and background stay in place, and the text is still editable. I can type right here."
-
-**1:40–1:55 Another format** — brochure 줄을 PowerPoint로 바꾸고 Convert → 열기
-> "Need it as slides instead? I just change the format to PowerPoint and convert again. No need to upload the file again."
-
-**1:55–2:30 Library** — 보관함으로 스크롤
-> "Every result is saved in the Library, even after I close the browser."
-- 검색창에 "trip" → "I can search and filter,"
-- brochure.docx **View** → "preview a file,"
-- report.pdf **Edit** → 이름 `Q3 report`, 메모 `final version` → "rename it and add a memo,"
-- brochure **Convert again** (위 목록 줄이 노랗게 표시) → "send the original back to convert into another format,"
-- sales.pdf **Delete** → "and delete what I don't need. There's also Delete all to clear everything."
-
-**2:30–2:40 Wrap-up**
-> "That's DropPDF: drop your files, convert, and keep everything in one library. Thanks for watching!"
-
-팁: 변환 대기 시간은 편집으로 자르기. GenAI(Claude Code) 사용은 포스터 Tools에 적혀 있으므로 영상에서는 말하지 않기로 함(2026-10-08 사용자 결정).
+대본·녹음 방법·샘플 파일 설명은 [demo/README.md](demo/README.md)로 옮김(친구도 볼 수 있게 저장소에 올림).
