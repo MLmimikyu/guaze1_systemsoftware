@@ -1,4 +1,4 @@
-# 인수인계 메모 (2026-10-08, Windows PC → Mac)
+# 인수인계 메모 (2026-10-08 갱신 — Windows PC·Mac 공용)
 
 다른 컴퓨터에서 이어서 작업할 때 이 파일부터 읽는다. 프로젝트 구조와 코드 규칙은 [CLAUDE.md](CLAUDE.md)에 있다.
 
@@ -33,6 +33,14 @@ python3 -m http.server 8000 --bind 127.0.0.1 --directory web
    - 포스터 파일은 Windows PC의 `poster/` 폴더에만 있다(저장소에 올리지 않기로 함 — `.gitignore`에 포함). Mac에서 하려면 따로 옮겨 올 것.
    - `[Name 1] · [Name 2]`를 실제 이름으로 바꾸고 PDF로 다시 내보낸 뒤 제출.
 2. **3분 이내 YouTube 데모 영상** 녹화·업로드, 링크를 Phase 1 구글 시트에 입력. 대본은 아래.
+   - **진행 계획(2026-10-08 합의):** 녹음은 사용자가, 나머지는 Claude가 한다.
+     1. Claude: 대본에 나오는 샘플 파일 4개(`report.docx`, `sales.xlsx`, `trip-photos.zip`, `brochure.pdf`)를 만든다(Windows PC는 Office COM으로 가능).
+     2. 사용자: 대본을 **구간별로 먼저 녹음**한다 — 파일 8개 `01`~`08`(폰 녹음기로 충분). 목소리 길이에 화면을 맞추기 위해 녹음을 먼저 한다.
+     3. Claude: 앱을 대본대로 자동 조작하며 화면 녹화(클릭 위치에 커서 표시), Word 장면 녹화.
+     4. Claude: ffmpeg로 구간마다 녹음 길이에 맞춰 붙이고, 변환 대기 시간 자르고, 영어 자막(SRT)을 넣어 3분 이내 MP4로 만든다.
+     5. 사용자: YouTube 업로드, 구글 시트에 링크 입력.
+   - **아직 정하지 않은 것:** 화면 녹화 방식 — (가) 실제 데스크톱 녹화(Word 장면까지 진짜, 녹화 약 5분 동안 PC를 쓰면 안 됨) / (나) 보이지 않는 브라우저로 녹화(Word 장면은 결과 이미지로 대체). 녹음을 구간별 8개로 할지 통으로 할지.
+   - 도구: Windows PC에는 ffmpeg가 `C:\Users\dchl7\ffmpeg\bin`에 있다(Mac은 확인 필요). Higgsfield 같은 AI 영상 생성은 가짜 앱 화면이 만들어지므로 본편에 쓰지 않는다(쓴다면 짧은 인트로 정도, 이 세션에는 연결 안 됨). Claude in Chrome(브라우저 조작·GIF 녹화, 소리 없음)과 Tella(직접 녹화 + Claude가 편집, 연결 필요)도 선택지로 검토함.
 3. ~~실제 Mac에서 확인~~ — 완료(2026-10-08, macOS 27 / Safari 27). 고친 것과 확인한 것:
    - **고침: Safari에서 Word·Excel·PowerPoint·HTML → PDF가 "Rendering page 1/1…"에서 영원히 멈춤.** Safari는 `allow-scripts`가 없는 iframe 안에서 이벤트를 전혀 부르지 않아 html2canvas가 끝나지 않았다. iframe에 `allow-scripts`를 주고, 스크립트는 기존 CSP가 막는다(스크립트 든 HTML로 막히는 것 확인).
    - **고침(Chrome에도 있던 문제): Mac Chrome으로 "PDF로 저장"한 한글 PDF → Word/PowerPoint에서 글자가 두 번 겹쳐 보임.** 이런 PDF는 Type3 글꼴이라 배경 그림에서 글자가 빠지지 않았다.
@@ -42,7 +50,7 @@ python3 -m http.server 8000 --bind 127.0.0.1 --directory web
    - 확인: Safari가 만든 PDF → Word 결과를 Mac용 Word로 열면 1페이지 그대로, 글자 편집 가능. Mac용 Word에 맑은 고딕이 들어 있어 대체 글꼴 문제 없음.
    - 확인: Safari로 `index.html`을 직접 열어도(file://) 변환·보관함 저장·새로고침 후 유지 모두 됨. Safari 27은 file://에서도 저장되므로 노란 안내는 뜨지 않는 게 정상이다. 저장이 실패하는 경우(비공개 창 등)를 흉내 내면 노란 안내가 뜨고 탭 안 임시 저장으로 계속 됨.
    - 테스트용으로 켠 Safari 설정 **개발자 → "Apple 이벤트의 JavaScript 허용"** 은 끝나면 꺼도 된다.
-4. 원격 저장소의 **`master` 브랜치**는 옛 버전 그대로 남아 있다. 친구와 상의 후 필요 없으면 삭제.
+4. 원격 저장소의 **`master` 브랜치**는 옛 버전 그대로 남아 있고, **GitHub의 기본 브랜치도 `master`** 라서 저장소 첫 화면에 옛 Electron 버전이 보인다. 친구와 상의 후: GitHub 저장소 **Settings → General → Default branch** 를 `main`으로 바꾸고, 필요 없으면 `master`를 삭제. (기본 브랜치 변경은 저장소 관리자 권한으로 웹에서 해야 한다.)
 5. ~~`.claude/launch.json`의 `python` 문제~~ — 해결(2026-10-08). `launch.json`은 Windows와 같이 쓰므로 그대로 두고, Mac에 `python` 링크를 만들었다: `ln -s /Library/Developer/CommandLineTools/usr/bin/python3 /opt/homebrew/bin/python`. (`/usr/bin/python3`에 링크하면 안 된다 — 중계 파일이라 `python` 이름으로 부르면 실패함.) 되돌리기: `rm /opt/homebrew/bin/python`.
 
 ## 저장소에 없는 것 (Windows PC에만 있음)
