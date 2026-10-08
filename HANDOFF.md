@@ -91,6 +91,6 @@ python3 -m http.server 8000 --bind 127.0.0.1 --directory web
 - sales.pdf **Delete** → "and delete what I don't need. There's also Delete all to clear everything."
 
 **2:30–2:40 Wrap-up**
-> "That's DropPDF: drop your files, convert, and keep everything in one library. We built it with Claude Code. Thanks for watching!"
+> "That's DropPDF: drop your files, convert, and keep everything in one library. Thanks for watching!"
 
-팁: 변환 대기 시간은 편집으로 자르기. 마지막 Claude Code 한 줄은 GenAI 사용 표기용이라 남겨 둘 것.
+팁: 변환 대기 시간은 편집으로 자르기. GenAI(Claude Code) 사용은 포스터 Tools에 적혀 있으므로 영상에서는 말하지 않기로 함(2026-10-08 사용자 결정).
