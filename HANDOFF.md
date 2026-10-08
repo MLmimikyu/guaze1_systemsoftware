@@ -31,7 +31,7 @@ python3 -m http.server 8000 --bind 127.0.0.1 --directory web
 
 1. **포스터 제출 — LMS `cse406-phase1-poster-submission`, 10월 9일 13:00까지(팀당 1부).**
    - 포스터 파일은 Windows PC의 `poster/` 폴더에만 있다(저장소에 올리지 않기로 함 — `.gitignore`에 포함). Mac에서 하려면 따로 옮겨 올 것.
-   - **최종본 완성(2026-10-08 저녁):** 이름(Hyeonmin Choi, Jaewu Yoo) 들어감, Mac 지원 반영(Browser 상자 "Chrome / Edge / Safari", Platform "Windows 11 / macOS (Safari 15.4+)"), `poster/DropPDF_poster.pdf` 다시 내보냄. **남은 것은 LMS 제출뿐(사용자).**
+   - **최종본 완성(2026-10-08 저녁):** 이름(Hyeonmin Choi, Jaewu Yoo) 들어감, Mac 지원 반영(Browser 상자 "Chrome / Edge / Safari", Platform "Windows 11 / macOS (Safari 15.4+)"), 아키텍처 그림을 다시 그림(브라우저 탭 하나가 전체를 감싸는 구조 — 서버 없음, 라이브러리마다 역할 표시, CRUD 화살표는 app.js → IndexedDB). 이전 PPTX는 `poster/DropPDF_poster.before-arch.pptx`. **남은 것: 사용자가 PPTX에서 PDF로 내보내고 LMS에 제출.**
 2. **3분 이내 YouTube 데모 영상** 녹화·업로드, 링크를 Phase 1 구글 시트에 입력. 대본은 아래.
    - **진행 계획(2026-10-08 합의):** 녹음은 사용자가, 나머지는 Claude가 한다.
      1. ~~Claude: 샘플 파일 4개 만들기~~ — 완료(2026-10-08). `demo/samples/`에 `report.docx`, `sales.xlsx`, `trip-photos.zip`(사진 4장, 이름 1·2·3·10으로 자연 정렬 확인용), `brochure.pdf`(사진·색 배경·글자 섞인 1쪽). 사진은 직접 그린 풍경 그림(`demo/photos/`). 다시 만들려면 `demo/make-photos.ps1 demo/photos` → `powershell.exe -File demo/make-samples.ps1 demo` (Windows PowerShell 5.1로 실행 — PowerShell 7은 Office COM 값 설정이 깨짐). `demo/`는 저장소에 올리지 않음(`.gitignore`).
