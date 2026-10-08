@@ -159,13 +159,39 @@ async function renderPageCanvas(page, { hideText = false } = {}) {
   const context = canvas.getContext("2d");
   context.fillStyle = "#ffffff";
   context.fillRect(0, 0, canvas.width, canvas.height);
+  const restoreFonts = hideText ? await hideGlyphPaths(page) : () => {};
   if (hideText) {
     // pdf.js는 글자를 fillText/strokeText로 그리므로, 이 둘을 막으면 글자를 뺀 페이지 그림이 남는다.
     context.fillText = () => {};
     context.strokeText = () => {};
   }
-  await page.render({ canvasContext: context, viewport }).promise;
+  try {
+    await page.render({ canvasContext: context, viewport }).promise;
+  } finally {
+    restoreFonts();
+  }
   return canvas;
+}
+
+// fillText를 쓰지 않고 글자 모양을 경로로 그리는 글꼴(Type3 글꼴 — 맥 Chrome이 한글 웹 페이지를 PDF로 저장하면 이렇게 된다 —
+// 과 브라우저에 올리지 못한 글꼴)은 그리는 동안 글자 모양을 비워 둔다. 되돌리는 함수를 돌려준다.
+async function hideGlyphPaths(page) {
+  const { fnArray, argsArray } = await page.getOperatorList();
+  const names = new Set(fnArray.flatMap((fn, index) => (fn === pdfjsLib.OPS.setFont ? [argsArray[index][0]] : [])));
+  const restores = [];
+  for (const name of names) {
+    const font = page.commonObjs.has(name) ? page.commonObjs.get(name) : null;
+    if (font?.charProcOperatorList) {
+      const original = font.charProcOperatorList;
+      font.charProcOperatorList = Object.fromEntries(Object.keys(original).map((id) => [id, { fnArray: [], argsArray: [], lastChunk: true }]));
+      restores.push(() => { font.charProcOperatorList = original; });
+    }
+    if (font?.disableFontFace) {
+      font.getPathGenerator = () => () => {};
+      restores.push(() => { delete font.getPathGenerator; });
+    }
+  }
+  return () => restores.forEach((restore) => restore());
 }
 
 function canvasPixels(canvas) {

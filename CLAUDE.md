@@ -37,7 +37,7 @@ Record shape: `{ id, title, memo, sourceName, sourceSize, format: "pdf"|"png"|"j
 - `downloadRecord` downloads a single output as `title.ext` and bundles multiple outputs into `title.zip` with JSZip.
 
 Every PDF output is **rasterized** (JPEG pages), so Korean renders correctly with system fonts (jsPDF's built-in fonts have no Hangul glyphs), but PDF text isn't selectable. `app.js` handles images and plain text itself, drawing text onto A4 canvases. All other input goes through `web/office.js`, where `DOCUMENT_CONVERTERS` maps each extension to a converter:
-- Every converter produces HTML. `renderHtmlToPdf` loads that HTML into an off-screen `<iframe sandbox="allow-same-origin" srcdoc>` with a CSP `<meta>` (`FRAME_CSP`) that blocks scripts and network requests. It captures the page with html2canvas in chunks of at most `MAX_CAPTURE_HEIGHT_PX` and writes the pages with jsPDF.
+- Every converter produces HTML. `renderHtmlToPdf` loads that HTML into an off-screen `<iframe sandbox="allow-same-origin allow-scripts" srcdoc>` with a CSP `<meta>` (`FRAME_CSP`) that blocks scripts and network requests. `allow-scripts` is required: Safari never fires JS listeners on nodes inside a script-disabled frame, so html2canvas would wait forever for its clone iframe to load. The CSP, which every frame document must carry first in `<head>`, is what keeps scripts out (user HTML is also sanitized). It captures the page with html2canvas in chunks of at most `MAX_CAPTURE_HEIGHT_PX` and writes the pages with jsPDF.
 - `findPageBreaks` picks page cut points that don't slice text lines, images or table rows. Slides use fixed page heights instead (`slideHeightPx`).
 - Libraries: DOCX uses docx-preview, rendering directly into the iframe document. XLS/XLSX/ODS use SheetJS `sheet_to_html`.
 - DOCX → PDF (`docxToPdf`, also used for the Library preview of DOCX records):
@@ -63,7 +63,7 @@ Every PDF output is **rasterized** (JPEG pages), so Korean renders correctly wit
   - A paragraph whose top is above the current flow bottom (unaligned columns, side notes) is put in a page-positioned `wps` text box instead (`docxTextBoxAnchor`).
 - Do not go back to per-image/per-shape anchors with Word text wrapping. That was tried and caused shapes hiding photos, backgrounds cropped to text areas, and spacing counted twice (extra pages).
 - Text color comes from `colorLines` (shared with PPTX). Word's Asian/Latin auto-spacing is turned off in the styles.
-- PPTX: each page is rendered twice, once with `fillText`/`strokeText` stubbed out. The text-free render becomes the slide background, and each text segment becomes a `wrap="none"` text box. Its color is sampled by diffing the two renders.
+- PPTX: each page is rendered twice, once with text hidden (`renderPageCanvas({ hideText })`: `fillText`/`strokeText` stubbed, plus `hideGlyphPaths` empties Type3 glyph procs and path-glyph generators — Mac Chrome's "Save as PDF" of Korean pages produces Type3 fonts that bypass `fillText`). The text-free render becomes the slide background, and each text segment becomes a `wrap="none"` text box. Its color is sampled by diffing the two renders.
 - Validate generated DOCX/PPTX by opening them in real Word and PowerPoint via COM (`Documents.Open`, `Presentations.Open`, `Slide.Export`). Office rejects malformed packages that browsers would accept.
 - The Library preview for DOCX/PPTX records renders them back to PDF through `DOCUMENT_CONVERTERS`.
 
@@ -78,5 +78,7 @@ Every PDF output is **rasterized** (JPEG pages), so Korean renders correctly wit
 - File names are normalized to NFC in `enqueueFiles` (macOS often gives NFD Hangul). ZIP entry names go through `decodeZipName` (UTF-8, falling back to CP949) and `entryName` (NFC).
 - If IndexedDB fails (Safari on `file://`, private windows), `recordStore` switches to the in-tab `memoryRecords` map via `storeCall` and shows `#storage-warning`.
 - Fonts always list a Mac fallback (Apple SD Gothic Neo, Menlo) after the Windows font.
+- TextEdit's DOCX has an empty `<w:sectPr/>`; `extractFloatingObjects` fills in a default A4 `pgSz`/`pgMar` for any section missing them.
+- To test in Safari on the Mac: enable Safari's "Allow JavaScript from Apple Events" and drive it with `osascript -e 'tell application "Safari" to do JavaScript "…" in front document'` (poll a `window` variable for async results). Headless Chrome on the Mac is `/Applications/Google Chrome.app/Contents/MacOS/Google Chrome`.
 
 The Claude desktop preview pane pauses rendering while it is hidden, so pdf.js/html2canvas calls can hang there. Use a separate headless Chrome (above) for conversion tests. Browsers cache `office.js`/`app.js` aggressively on `localhost`; after edits, hard-refresh (Ctrl+F5) or `fetch(url, { cache: "reload" })` before reloading.

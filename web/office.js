@@ -4,7 +4,7 @@
 // HTML·Office·OpenDocument·RTF 문서를 브라우저 안에서 PDF로 변환한다.
 //
 // 모든 문서는 같은 경로를 거친다:
-//   문서 → HTML 문자열 → 화면 밖 iframe(sandbox, 네트워크 차단 CSP) → html2canvas → jsPDF
+//   문서 → HTML 문자열 → 화면 밖 iframe(sandbox, 스크립트·네트워크 차단 CSP) → html2canvas → jsPDF
 // ---------------------------------------------------------------------------
 
 const CSS_PX_PER_MM = 96 / 25.4;
@@ -50,8 +50,10 @@ function createDocumentHtml(body, css = "") {
 function loadFrame(html, widthPx) {
   return new Promise((resolve) => {
     const frame = document.createElement("iframe");
-    // allow-scripts가 없으므로 문서 안의 스크립트는 실행되지 않는다.
-    frame.setAttribute("sandbox", "allow-same-origin");
+    // Safari는 allow-scripts가 없는 문서 안 노드의 이벤트 리스너를 아예 부르지 않아서
+    // html2canvas가 복제 iframe의 load를 영원히 기다린다. 그래서 allow-scripts를 주고,
+    // 문서 안의 스크립트는 모든 문서 머리에 넣는 CSP(FRAME_CSP, script-src 없음)가 막는다.
+    frame.setAttribute("sandbox", "allow-same-origin allow-scripts");
     frame.setAttribute("aria-hidden", "true");
     frame.tabIndex = -1;
     frame.style.cssText = `position:fixed;left:-30000px;top:0;width:${widthPx}px;height:400px;border:0;`;
@@ -494,7 +496,29 @@ async function extractFloatingObjects(data) {
     tabCount += 1;
   }
 
-  if (floats.length === 0 && tabCount === 0) return { data, floats };
+  // 맥 TextEdit가 저장한 DOCX처럼 구역에 페이지 크기·여백이 없으면 docx-preview가 페이지를 iframe 폭만큼 넓게 그린다.
+  // Word처럼 기본값(A4, 여백 2.54cm)을 넣어 준다.
+  let pageFixes = 0;
+  const body = descendants(xml, "body")[0];
+  if (body && !kid(body, "sectPr")) body.append(xml.createElementNS(W, "w:sectPr"));
+  for (const section of descendants(xml, "sectPr")) {
+    let size = kid(section, "pgSz");
+    if (!size) {
+      size = xml.createElementNS(W, "w:pgSz");
+      size.setAttributeNS(W, "w:w", "11906");
+      size.setAttributeNS(W, "w:h", "16838");
+      section.prepend(size);
+      pageFixes += 1;
+    }
+    if (!kid(section, "pgMar")) {
+      const margin = xml.createElementNS(W, "w:pgMar");
+      for (const side of ["top", "right", "bottom", "left"]) margin.setAttributeNS(W, `w:${side}`, "1440");
+      size.after(margin);
+      pageFixes += 1;
+    }
+  }
+
+  if (floats.length === 0 && tabCount === 0 && pageFixes === 0) return { data, floats };
   zip.file(documentPath, new XMLSerializer().serializeToString(xml));
   return { data: await zip.generateAsync({ type: "arraybuffer" }), floats };
 }
