@@ -5,7 +5,7 @@ Open `index.html` in Chrome or Edge. No installation, server, or internet connec
 
 ## How to use
 
-1. Double-click `web/index.html` (or drag it into a Chrome/Edge window).
+1. Double-click `web/index.html` (or drag it into a Chrome/Edge window). On a Mac with Safari, run it on localhost instead (see the main README) so the Library can be saved.
 2. **Add files**: drop files onto the box or click it to choose. You can also add a ZIP of photos: all photos are combined into one PDF. Files are only listed, not converted yet.
 3. **Convert**: for each PDF, pick the output format on its row (Word, PowerPoint, PNG, JPG, Text). Click **Convert** on a row to convert just that file, or **Convert all**. To get another format later, change the row's format and click **Convert** again; there is no need to upload the file again.
 4. Click **Download** on a finished row. A result with several files (for example a multi-page PDF → PNG/JPG) downloads as one ZIP. Every result is also kept in the **Library**, together with its original file. **Convert again** in the Library puts that original back into the convert list (or highlights it if it is already there).
@@ -46,7 +46,7 @@ Open `index.html` in Chrome or Edge. No installation, server, or internet connec
   - Library with search, filter, preview, re-download, rename/memo (update), delete or delete all, and convert again from the saved original
   - 100% local: no server, no upload, no installation
 - **Tools:** Claude Code (Opus 5.5), HTML/CSS/JavaScript, IndexedDB, pdf.js, jsPDF, html2canvas, SheetJS, docx-preview, JSZip
-- **Platform:** Windows 11, Chrome / Edge
+- **Platform:** Windows 11 and macOS; Chrome, Edge, or Safari 15.4+
 
 ```
  Browser (Chrome / Edge) ── opens index.html (file://)
@@ -94,4 +94,6 @@ Open `index.html` in Chrome or Edge. No installation, server, or internet connec
 **General**
 - Password-protected files and Word 6/95 files are not supported. Maximum file size is 200 MB.
 - The Library keeps each original file as well as the result, so it uses roughly twice the space. Records converted before this feature have no saved original, so they have no **Convert again** button.
+- On a Mac with Safari opening the file directly, or in a private window, the browser may refuse to save the Library. The app then keeps results only until the tab is closed and shows a notice; use localhost to keep them.
+- Word files made from PDFs use Malgun Gothic for Korean. On a Mac without that font, Word substitutes another, so line widths can differ slightly.
 - The Library lives only in this browser. Clearing site data deletes it, and it is not shared with other browsers or PCs.

@@ -70,4 +70,11 @@ Every PDF output is **rasterized** (JPEG pages), so Korean renders correctly wit
 ### Verifying web/ changes
 `web/` has no automated test suite. To verify a change, run headless Chrome (`C:\Program Files\Google\Chrome\Application\chrome.exe --headless=new --remote-debugging-port=…`) against a copy of `index.html` that also loads a harness script. Drive it over the DevTools protocol (`Runtime.evaluate` with `awaitPromise`); PowerShell's `System.Net.WebSockets.ClientWebSocket` works for this. Don't use `--dump-dom`: it snapshots before async IndexedDB/canvas work finishes. Don't pass `--allow-file-access-from-files` either, or the test won't match how real users open the page. The harness can't read local files from `file://`, so embed sample files in a generated JS file as base64 and call `convert(file, "png", () => {})` on each. Microsoft Office is installed on the dev machine; real samples of every format can be generated through COM (`Word.Application`, `PowerPoint.Application`, `Excel.Application` → `SaveAs`). Visually check rendered output pages, not just that conversion didn't throw.
 
+**Mac / Safari support (baseline Safari 15.4):**
+- Don't use regex lookbehind (`(?<=` / `(?<!`): Safari < 16.4 fails to parse the whole file.
+- Avoid newer APIs (`findLast`, `toSorted`, `structuredClone`).
+- File names are normalized to NFC in `enqueueFiles` (macOS often gives NFD Hangul). ZIP entry names go through `decodeZipName` (UTF-8, falling back to CP949) and `entryName` (NFC).
+- If IndexedDB fails (Safari on `file://`, private windows), `recordStore` switches to the in-tab `memoryRecords` map via `storeCall` and shows `#storage-warning`.
+- Fonts always list a Mac fallback (Apple SD Gothic Neo, Menlo) after the Windows font.
+
 The Claude desktop preview pane pauses rendering while it is hidden, so pdf.js/html2canvas calls can hang there. Use a separate headless Chrome (above) for conversion tests. Browsers cache `office.js`/`app.js` aggressively on `localhost`; after edits, hard-refresh (Ctrl+F5) or `fetch(url, { cache: "reload" })` before reloading.

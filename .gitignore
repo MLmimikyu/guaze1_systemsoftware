@@ -8,3 +8,6 @@ desktop.ini
 # 테스트용 임시 파일
 web/__test__/
 *.log
+
+# 포스터 작업 파일 (저장소에 올리지 않음)
+poster/

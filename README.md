@@ -5,15 +5,17 @@ CSE406 Phase 1 Scratch Project.
 
 ## Run
 
-Open [`web/index.html`](web/index.html) in Chrome or Edge. No installation, server, or internet connection is needed.
+**Windows / Mac:** open [`web/index.html`](web/index.html) in Chrome or Edge. No installation, server, or internet connection is needed.
 
-Or serve it on localhost (needs Python):
+**Mac with Safari** (Safari 15.4 or later): run it on localhost so the Library can be saved. Python 3 is preinstalled on most Macs:
 
 ```bash
-python -m http.server 8000 --bind 127.0.0.1 --directory web
+python3 -m http.server 8000 --bind 127.0.0.1 --directory web
 ```
 
-Then open http://localhost:8000.
+Then open http://localhost:8000. On Windows the command is `python` instead of `python3`.
+
+After updating the code, hard-refresh the page: **Ctrl+F5** (Windows) or **Cmd+Shift+R** (Mac).
 
 ## What it does
 

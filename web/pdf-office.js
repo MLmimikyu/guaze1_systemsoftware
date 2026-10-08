@@ -28,7 +28,8 @@ function xmlEscape(value) {
   return String(value)
     // XML에 넣을 수 없는 제어 문자와 짝 없는 서로게이트를 지운다.
     .replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F￾￿]/g, "")
-    .replace(/[\uD800-\uDBFF](?![\uDC00-\uDFFF])|(?<![\uD800-\uDBFF])[\uDC00-\uDFFF]/g, "")
+    // (뒤를 보는 정규식(lookbehind)은 Safari 16.4 미만에서 파일 전체를 못 읽게 하므로 쓰지 않는다: 짝이 맞는 쌍만 남긴다.)
+    .replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]|[\uD800-\uDFFF]/g, (match) => (match.length === 2 ? match : ""))
     .replaceAll("&", "&amp;")
     .replaceAll("<", "&lt;")
     .replaceAll(">", "&gt;")
@@ -227,7 +228,8 @@ let measureContext = null;
 function measureSegment(segment) {
   measureContext ??= document.createElement("canvas").getContext("2d");
   return segment.runs.reduce((sum, run) => {
-    measureContext.font = `${run.italic ? "italic " : ""}${run.bold ? "bold " : ""}100px "${run.family}", "${EAST_ASIAN_FONT}"`;
+    // Mac에는 맑은 고딕이 없을 수 있어 Apple SD Gothic Neo로 대신 잰다.
+    measureContext.font = `${run.italic ? "italic " : ""}${run.bold ? "bold " : ""}100px "${run.family}", "${EAST_ASIAN_FONT}", "Apple SD Gothic Neo", sans-serif`;
     return sum + (measureContext.measureText(run.text).width / 100) * run.size;
   }, 0);
 }

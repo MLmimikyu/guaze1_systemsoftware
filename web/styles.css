@@ -57,3 +57,4 @@ dialog.wide { width: min(900px, calc(100% - 32px)); }
 .records .memo { margin-top: 2px; font-size: 13px; }
 .toolbar .push-right { margin-left: auto; }
 .highlight td { background: #fff7cc; transition: background 0.3s; }
+.warning { margin: 4px 0 8px; padding: 8px 10px; background: #fff7cc; border-radius: 6px; font-size: 13px; }

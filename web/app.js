@@ -56,12 +56,19 @@ let dbPromise;
 
 function openDb() {
   dbPromise ??= new Promise((resolve, reject) => {
-    const request = indexedDB.open(DB_NAME, 1);
-    request.onupgradeneeded = () => {
-      request.result.createObjectStore(STORE, { keyPath: "id" });
-    };
-    request.onsuccess = () => resolve(request.result);
-    request.onerror = () => reject(request.error);
+    // 일부 브라우저(예: 파일로 직접 연 Safari)는 저장소를 거부하거나 응답하지 않는다. 그때는 아래 임시 저장소로 넘어간다.
+    const timer = setTimeout(() => reject(new Error("Storage did not respond.")), 4000);
+    try {
+      const request = indexedDB.open(DB_NAME, 1);
+      request.onupgradeneeded = () => {
+        request.result.createObjectStore(STORE, { keyPath: "id" });
+      };
+      request.onsuccess = () => { clearTimeout(timer); resolve(request.result); };
+      request.onerror = () => { clearTimeout(timer); reject(request.error); };
+    } catch (error) {
+      clearTimeout(timer);
+      reject(error);
+    }
   });
   return dbPromise;
 }
@@ -77,13 +84,40 @@ async function withStore(mode, action) {
   });
 }
 
+// IndexedDB를 쓸 수 없으면(파일로 직접 연 Safari, 개인 정보 보호 창 등) 이 탭이 열려 있는 동안만 기억하는 임시 저장소로 바꾼다.
+let memoryRecords = null;
+
+async function switchToMemory() {
+  if (memoryRecords) return;
+  memoryRecords = new Map();
+  try {
+    for (const record of await withStore("readonly", (store) => store.getAll())) memoryRecords.set(record.id, record);
+  } catch {
+    // 저장소를 읽을 수도 없으면, 화면에 이미 불러와 둔 기록이라도 이어서 쓴다.
+    for (const record of records) memoryRecords.set(record.id, record);
+  }
+  const warning = document.querySelector("#storage-warning");
+  if (warning) warning.hidden = false;
+}
+
+async function storeCall(databaseCall, memoryCall) {
+  if (!memoryRecords) {
+    try {
+      return await databaseCall();
+    } catch {
+      await switchToMemory();
+    }
+  }
+  return memoryCall();
+}
+
 const recordStore = {
-  create: (record) => withStore("readwrite", (store) => store.add(record)),
-  list: () => withStore("readonly", (store) => store.getAll()),
-  get: (id) => withStore("readonly", (store) => store.get(id)),
-  update: (record) => withStore("readwrite", (store) => store.put(record)),
-  remove: (id) => withStore("readwrite", (store) => store.delete(id)),
-  clear: () => withStore("readwrite", (store) => store.clear()),
+  create: (record) => storeCall(() => withStore("readwrite", (store) => store.add(record)), () => void memoryRecords.set(record.id, record)),
+  list: () => storeCall(() => withStore("readonly", (store) => store.getAll()), () => [...memoryRecords.values()]),
+  get: (id) => storeCall(() => withStore("readonly", (store) => store.get(id)), () => memoryRecords.get(id)),
+  update: (record) => storeCall(() => withStore("readwrite", (store) => store.put(record)), () => void memoryRecords.set(record.id, record)),
+  remove: (id) => storeCall(() => withStore("readwrite", (store) => store.delete(id)), () => void memoryRecords.delete(id)),
+  clear: () => storeCall(() => withStore("readwrite", (store) => store.clear()), () => memoryRecords.clear()),
 };
 
 function newId() {
@@ -197,7 +231,7 @@ async function textToPdf(file) {
   canvas.width = pageWidth;
   canvas.height = pageHeight;
   const context = canvas.getContext("2d");
-  const font = `${fontSize}px Consolas, "Malgun Gothic", "Apple SD Gothic Neo", monospace`;
+  const font = `${fontSize}px Consolas, Menlo, "Malgun Gothic", "Apple SD Gothic Neo", monospace`;
   context.font = font;
 
   const rows = text.split("\n").flatMap((line) => wrapLine(context, line, pageWidth - margin * 2));
@@ -280,16 +314,32 @@ function uniqueName(name, taken) {
 
 // ZIP 안의 사진은 이름 순서대로 PDF 하나로 묶는다(사진 한 장 = 한 페이지).
 // 사진이 아닌 지원 파일이 섞여 있으면 따로 변환해 함께 내보내고, 그때는 결과가 여러 개라 ZIP으로 내려받는다.
+// ZIP 안 파일 이름: UTF-8로 먼저 읽고(맥·최신 Windows), 안 되면 CP949로 읽는다(예전 한국어 Windows). 분리된 한글(NFD)은 합친다.
+function decodeZipName(bytes) {
+  let name;
+  try {
+    name = new TextDecoder("utf-8", { fatal: true }).decode(bytes);
+  } catch {
+    name = new TextDecoder("euc-kr").decode(bytes);
+  }
+  return name.normalize("NFC");
+}
+
+// 폴더를 뺀 파일 이름(UTF-8 표시가 있는 이름은 decodeZipName을 거치지 않으므로 여기서도 합친다).
+function entryName(entry) {
+  return entry.name.split("/").pop().normalize("NFC");
+}
+
 async function convertArchive(file, pdfFormat, onProgress) {
   let zip;
   try {
-    zip = await JSZip.loadAsync(file);
+    zip = await JSZip.loadAsync(file, { decodeFileName: decodeZipName });
   } catch {
     throw new Error("Could not open the ZIP file.");
   }
   const entries = Object.values(zip.files)
     .filter((entry) => {
-      const name = entry.name.split("/").pop();
+      const name = entryName(entry);
       return !entry.dir && name && !name.startsWith(".") && !entry.name.startsWith("__MACOSX/")
         && !["unsupported", "archive"].includes(getFileKind(name));
     })
@@ -302,14 +352,14 @@ async function convertArchive(file, pdfFormat, onProgress) {
   const isImage = (entry) => getFileKind(entry.name) === "image";
   const images = entries.filter(isImage);
   if (images.length > 0) {
-    const files = await Promise.all(images.map(async (entry) => new File([await entry.async("blob")], entry.name.split("/").pop())));
+    const files = await Promise.all(images.map(async (entry) => new File([await entry.async("blob")], entryName(entry))));
     blobs.push(await imagesToPdf(files, onProgress));
     names.push(uniqueName(`${getStem(file.name)}.pdf`, taken));
   }
 
   const others = entries.filter((entry) => !isImage(entry));
   for (const [index, entry] of others.entries()) {
-    const name = entry.name.split("/").pop();
+    const name = entryName(entry);
     const prefix = `File ${index + 1}/${others.length} (${name})`;
     onProgress(`${prefix}…`);
     const inner = new File([await entry.async("blob")], name);
@@ -502,7 +552,10 @@ function renderQueue() {
 function enqueueFiles(fileList) {
   const files = [...fileList];
   if (files.length === 0) return;
-  for (const file of files) {
+  for (const original of files) {
+    // 맥에서 온 한글 파일 이름은 자모가 분리된(NFD) 경우가 많다. 화면·검색·다운로드 이름이 어긋나지 않게 합친다(NFC).
+    const name = original.name.normalize("NFC");
+    const file = name === original.name ? original : new File([original], name, { type: original.type, lastModified: original.lastModified });
     const supported = getFileKind(file.name) !== "unsupported";
     queue.push({
       file,
