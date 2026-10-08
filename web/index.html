@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DropPDF</title>
+    <link rel="stylesheet" href="./styles.css">
+  </head>
+  <body>
+    <main>
+      <h1>DropPDF</h1>
+
+      <section>
+        <h2>1. Add files</h2>
+        <div id="drop-zone" class="drop-zone" tabindex="0" role="button" aria-label="Add files">
+          Drop files here or click to choose.
+        </div>
+        <ul class="hint">
+          <li><strong>To PDF:</strong> images, text, HTML, Word, Excel, PowerPoint, OpenDocument, RTF</li>
+          <li><strong>From PDF:</strong> pick the output format in step 2</li>
+          <li><strong>ZIP of photos:</strong> combined into one PDF, one photo per page, in file-name order</li>
+        </ul>
+        <input id="file-input" type="file" multiple hidden
+          accept=".jpg,.jpeg,.png,.webp,.gif,.bmp,.txt,.text,.md,.log,.htm,.html,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.odt,.ods,.odp,.rtf,.pdf,.zip">
+      </section>
+
+      <section>
+        <h2>2. Convert</h2>
+        <table class="list queue">
+          <thead><tr><th>File</th><th>To</th><th>Status</th><th></th></tr></thead>
+          <tbody id="queue"></tbody>
+        </table>
+        <p id="queue-empty" class="hint">No files added.</p>
+        <div class="row">
+          <button id="convert" type="button" disabled>Convert all</button>
+          <button id="clear-queue" type="button" disabled>Clear list</button>
+          <span id="notice" role="status"></span>
+        </div>
+      </section>
+
+      <section>
+        <h2>3. Library <span class="hint">(<span id="record-count">0</span>) <span id="record-size"></span></span></h2>
+        <div class="row toolbar">
+          <input id="search" type="search" placeholder="Search name, memo, or source">
+          <select id="filter">
+            <option value="">All formats</option>
+            <option value="pdf">PDF</option>
+            <option value="docx">DOCX</option>
+            <option value="pptx">PPTX</option>
+            <option value="png">PNG</option>
+            <option value="jpg">JPG</option>
+            <option value="txt">TXT</option>
+            <option value="zip">ZIP</option>
+          </select>
+          <button id="clear-library" class="link danger push-right" type="button" disabled>Delete all</button>
+        </div>
+        <table class="list records">
+          <tbody id="records"></tbody>
+        </table>
+        <p id="empty" class="hint">No converted files yet.</p>
+      </section>
+    </main>
+
+    <dialog id="preview-dialog" class="wide">
+      <div class="dialog-head">
+        <strong id="preview-title"></strong>
+        <button type="button" data-close>Close</button>
+      </div>
+      <div id="preview-body" class="preview-body"></div>
+    </dialog>
+
+    <dialog id="edit-dialog">
+      <form id="edit-form" method="dialog">
+        <div class="dialog-head"><strong>Edit</strong></div>
+        <label class="field">File name <input id="edit-title" required maxlength="120"></label>
+        <label class="field">Memo <textarea id="edit-memo" rows="4" maxlength="1000"></textarea></label>
+        <div class="row">
+          <button type="submit">Save</button>
+          <button type="button" data-close>Cancel</button>
+        </div>
+      </form>
+    </dialog>
+
+    <!-- 로컬 라이브러리: 인터넷 연결 없이 동작 -->
+    <script src="./lib/pdf.min.js"></script>
+    <script src="./lib/pdf.worker.min.js"></script>
+    <script src="./lib/jspdf.umd.min.js"></script>
+    <script src="./lib/html2canvas.min.js"></script>
+    <script src="./lib/jszip.min.js"></script>
+    <script src="./lib/docx-preview.min.js"></script>
+    <script src="./lib/xlsx.full.min.js"></script>
+    <script src="./office.js"></script>
+    <script src="./pdf-office.js"></script>
+    <script src="./app.js"></script>
+  </body>
+</html>
