@@ -39,7 +39,7 @@ python3 -m http.server 8000 --bind 127.0.0.1 --directory web
    - 한글 이름이 든 사진 ZIP
    - Safari로 `index.html`을 직접 열었을 때 노란 안내가 뜨고 변환은 되는지
 4. 원격 저장소의 **`master` 브랜치**는 옛 버전 그대로 남아 있다. 친구와 상의 후 필요 없으면 삭제.
-5. `.claude/launch.json`(Claude 미리보기용 서버 설정)은 `python`으로 되어 있다. Mac에서 쓰려면 `python3`로 바꿔야 할 수 있다.
+5. ~~`.claude/launch.json`의 `python` 문제~~ — 해결(2026-10-08). `launch.json`은 Windows와 같이 쓰므로 그대로 두고, Mac에 `python` 링크를 만들었다: `ln -s /Library/Developer/CommandLineTools/usr/bin/python3 /opt/homebrew/bin/python`. (`/usr/bin/python3`에 링크하면 안 된다 — 중계 파일이라 `python` 이름으로 부르면 실패함.) 되돌리기: `rm /opt/homebrew/bin/python`.
 
 ## 저장소에 없는 것 (Windows PC에만 있음)
 
