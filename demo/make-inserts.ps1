@@ -72,5 +72,13 @@ $g.DrawString("DropPDF", (New-Object System.Drawing.Font("Arial", 110, [System.D
 $g.DrawString("Drop your files, convert, and keep everything in one library.", (New-Object System.Drawing.Font("Arial", 30)), (New-Object System.Drawing.SolidBrush((C "#2563eb"))), (New-Object System.Drawing.RectangleF(0, 520, $W, 60)), $sf)
 $g.DrawString("Hyeonmin Choi  ·  Jaewu Yoo  ·  CSE406 Phase 1", (New-Object System.Drawing.Font("Arial", 24)), (New-Object System.Drawing.SolidBrush((C "#6b7280"))), (New-Object System.Drawing.RectangleF(0, 620, $W, 50)), $sf)
 Save $bmp $g "end.png"
+# 5) 첫 화면
+$bmp, $g = Canvas "#ffffff"
+$sf = New-Object System.Drawing.StringFormat; $sf.Alignment = "Center"
+$g.DrawString("DropPDF", (New-Object System.Drawing.Font("Arial", 110, [System.Drawing.FontStyle]::Bold)), (New-Object System.Drawing.SolidBrush((C "#1f2937"))), (New-Object System.Drawing.RectangleF(0, 330, $W, 170)), $sf)
+$g.DrawString("Convert files to and from PDF, right in your browser.", (New-Object System.Drawing.Font("Arial", 30)), (New-Object System.Drawing.SolidBrush((C "#2563eb"))), (New-Object System.Drawing.RectangleF(0, 520, $W, 60)), $sf)
+$g.DrawString("Hyeonmin Choi  ·  Jaewu Yoo  ·  CSE406 Phase 1", (New-Object System.Drawing.Font("Arial", 24)), (New-Object System.Drawing.SolidBrush((C "#6b7280"))), (New-Object System.Drawing.RectangleF(0, 620, $W, 50)), $sf)
+Save $bmp $g "title.png"
 Get-ChildItem $dst -Name
+
 
