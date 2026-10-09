@@ -23,8 +23,8 @@ powershell.exe -ExecutionPolicy Bypass -File demo/make-samples.ps1 demo
 
 ## 영상
 
-원본은 친구가 녹화한 `video/DropPDF-demo.mp4` (1080p, 2:40, 소리 없음). `make-video.ps1`이 편집본을 만든다 → **`video/DropPDF-demo-edited.mp4`** (1080p, 2:33, 소리 없음).
-- 맨 앞 2초(편집 프로그램 화면)와 변환을 기다리며 멈춰 있던 구간을 잘랐다. 원본의 노란 강조 상자와 말풍선은 그대로 둔다. 앞에 제목 화면(5초)을 넣고, 보관함 검색 부분은 확대해서 잘 보이게 했다.
+원본은 친구가 녹화한 `video/DropPDF-demo.mp4` (1080p, 2:40, 소리 없음). `make-video.ps1`이 편집본을 만든다 → **`video/DropPDF-demo-edited.mp4`** (1080p, 2:55, 소리 없음).
+- 맨 앞 2초(편집 프로그램 화면)와 변환을 기다리며 멈춰 있던 구간을 잘랐다. 원본의 노란 강조 상자와 말풍선은 그대로 둔다. 앞에 제목 화면(7초)을 넣고, 보관함 검색 부분은 확대해서 잘 보이게 했다.
 - 녹화에 없던 장면을 **앱이 실제로 만든 결과**로 끼워 넣었다: 형식 드롭다운 확대, `report.pdf` 페이지, 사진 PDF 4쪽, Word로 연 `brochure.docx`에 글자 입력, PowerPoint로 연 `brochure.pptx`, 끝 화면.
 - 원본에서 빠져 있던 "brochure 형식을 PowerPoint로 바꾸고 Convert 누르기" 장면은 headless Chrome으로 같은 화면 크기에서 다시 녹화해 넣었다(`demo/harness2.js`, `web/__test__/`에 복사해서 씀).
 - 다시 만들기: `pwsh demo/make-inserts.ps1 demo/work` → `pwsh demo/make-video.ps1 video/DropPDF-demo.mp4 demo/work`
@@ -35,37 +35,37 @@ powershell.exe -ExecutionPolicy Bypass -File demo/make-samples.ps1 demo
 - 구간 사이에 **2초쯤 쉰다** — 쉰 곳을 기준으로 영상에 맞춘다. 시간이 조금 어긋나도 편집에서 맞춘다.
 - 파일은 `demo/narration.m4a`로 둔다 (녹음·영상 파일은 저장소에 올리지 않음).
 
-## 대본 (편집본 기준 시간, 2026-10-09 확정)
+## 대본 (편집본 기준 시간, 2026-10-09 확정 — 자막이 초당 12자 안팎으로 읽히도록 영상 길이를 2:55로 늘림)
 
-**1. Intro** (0:00–0:15) — 제목 화면(0:00–0:05) → 앱 첫 화면
+**1. Intro** (0:00–0:20) — 제목 화면(0:00–0:07) → 앱 첫 화면
 > Hi, we're Hyeonmin and Jaewu, and this is DropPDF. It turns your files into PDFs, and turns PDFs back into Word or PowerPoint, all right in your browser. There's nothing to install, and your files never leave your computer.
 
-**2. Add files** (0:15–0:34) — 파일 4개를 끌어다 놓음, 줄마다 강조 → 0:30 형식 드롭다운 확대
+**2. Add files** (0:20–0:44) — 파일 4개를 끌어다 놓음, 줄마다 강조 → 0:36 형식 드롭다운 확대
 > Let's start by dragging in a few files: a Word report, an Excel sheet, a ZIP full of trip photos, and a PDF brochure. Each row shows what the file will turn into. Since the brochure is already a PDF, I get to choose what it becomes: Word, PowerPoint, images, or plain text.
 
-**3. Convert one file** (0:34–0:49) — report 줄 Convert → 0:39 만들어진 report.pdf
+**3. Convert one file** (0:44–1:00) — report 줄 Convert → 0:49 만들어진 report.pdf
 > If I only need one file, I just click Convert on that row. In a moment, the report is saved, and here's the PDF it made, with the table and layout just like the original.
 
-**4. Convert all** (0:49–1:05) — Convert all → 0:55 사진 PDF 4쪽
+**4. Convert all** (1:00–1:17) — Convert all → 1:06 사진 PDF 4쪽
 > For everything else, I click Convert all. My favorite part is the photo ZIP. Instead of four separate files, DropPDF puts every photo into one PDF, one page per photo, in the right order.
 
-**5. PDF → Word** (1:05–1:27) — 보관함 미리보기 → 1:15 Word로 열고 "for summer" 입력
+**5. PDF → Word** (1:17–1:43) — 보관함 미리보기 → 1:27 Word로 열고 1:33 "for summer" 입력
 > The brochure is now a Word document. Here's a quick preview in the Library, and here it is open in Microsoft Word. It's not just a picture of the page. I can click into the heading and keep typing, while the photos and background stay right where they were.
 
-**6. PowerPoint** (1:27–1:42) — 형식을 PowerPoint로 바꾸고 Convert 클릭 → 1:34 PowerPoint로 연 화면
+**6. PowerPoint** (1:43–2:01) — 형식을 PowerPoint로 바꾸고 Convert 클릭 → 1:54 PowerPoint로 연 화면
 > The same brochure can also become slides. I just switch the format to PowerPoint and hit Convert again, with no need to upload anything twice. And here's the brochure as a PowerPoint slide.
 
-**7. Library** (1:42–2:16) — 보관함
+**7. Library** (2:01–2:42) — 보관함
 > Every result is saved in the Library, so it's still here even after I close the browser.
 
 화면 순서:
-- 1:42 검색창에 "trip" (1:44 확대) → *I can search to find a file quickly,*
-- 1:48 View → *open a preview without downloading it,*
-- 1:54 Edit → 이름 `Q3 report`, 메모 `final version` → *and rename a file or add a memo so I remember what it's for.*
-- 2:01 brochure **Convert again** (위 목록 줄이 노랗게 표시됨) → *If I need another format later, Convert again sends the original back to the list, so I don't have to dig it up again.*
-- 2:08 sales.pdf **Delete** → *Anything I don't need is one click to delete, and Delete all clears the whole library.*
+- 2:06 검색창에 "trip" (2:07 확대) → *I can search to find a file quickly,*
+- 2:12 View → *open a preview without downloading it,*
+- 2:18 Edit → 이름 `Q3 report`, 메모 `final version` → *and rename a file or add a memo so I remember what it's for.*
+- 2:25 brochure **Convert again** (위 목록 줄이 노랗게 표시됨) → *If I need another format later, Convert again sends the original back to the list, so I don't have to dig it up again.*
+- 2:35 sales.pdf **Delete** → *Anything I don't need is one click to delete, and Delete all clears the whole library.*
 
-**8. Wrap-up** (2:16–2:33) — 2:26부터 끝 화면
+**8. Wrap-up** (2:42–2:55) — 2:50부터 끝 화면
 > So that's DropPDF: drop in your files, pick a format, and keep everything organized in one place. We hope it saves you some time. Thanks for watching!
 영어 자막은 `demo/subtitles.txt`(시간|문장)에 있고 `pwsh demo/make-subtitles.ps1`로 `video/DropPDF-demo.srt`와 자막을 입힌 `video/DropPDF-demo-subtitled.mp4`를 만든다(모서리가 둥근 반투명 배경). 대본을 고치면 이 파일도 같이 고칠 것.
 
