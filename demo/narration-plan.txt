@@ -1,0 +1,73 @@
+# 내레이션(demo/narration.m4a) 배치표 — make-narration.ps1이 읽는다.
+# clip|녹음 시작초|녹음 끝초|영상에 놓을 초     : 녹음의 이 부분을 영상의 이 시간에 놓는다
+# sub|녹음 시작초|녹음 끝초|자막                : 자막(녹음 기준 시간 → 위 clip으로 영상 시간으로 바꾼다)
+# 녹음 시간은 무음 구간(ffmpeg silencedetect)과 Whisper 받아쓰기로 찾았다. 실제로 읽은 말에 맞춰 자막을 썼다.
+# 빠진 것: 1.2~3.1초(말 없는 소리), 162~165초(첫 시도에서 끊긴 "We hope…").
+
+# 1. Intro (영상 0:00–0:16.5)
+clip|3.77|18.79|0.52
+sub|3.85|6.85|Hi, we're Hyeonmin and Jaewu, and this is DropPDF.
+sub|7.64|9.75|It turns your files into PDFs,
+sub|9.75|13.81|and turns PDFs back into Word or PowerPoint, all right in your browser.
+sub|15.06|18.71|There's nothing to install, and your files never leave your computer.
+
+# 2. Add files (0:16.5–0:39.9) — 0:32 드롭다운 확대
+clip|21.22|43.50|16.92
+sub|21.30|23.64|Let's start by dragging in a few files:
+sub|24.32|26.30|a Word report, an Excel sheet,
+sub|27.04|30.36|a ZIP full of trip photos, and a PDF brochure.
+sub|31.55|34.21|Each row shows what the file will turn into.
+sub|35.30|39.30|Since the brochure is already a PDF, I get to choose what it becomes.
+sub|39.45|43.42|It can be Word, PowerPoint, images, or a plain text file.
+
+# 3. Convert one file (0:39.9–0:54.1) — 0:47 report.pdf
+clip|46.69|59.81|40.12
+sub|46.77|50.28|If I only need one file, I can just click Convert on that row.
+sub|51.28|52.96|In a moment, the report is saved,
+sub|53.68|55.24|and here's the PDF it made.
+sub|56.29|59.73|You can see the table and layout, just like the original.
+
+# 4. Convert all (0:54.1–1:09.0) — 0:59.5 사진 PDF
+clip|62.06|75.95|54.28
+sub|62.14|63.11|For everything else,
+sub|63.97|65.49|you can click Convert all.
+sub|67.24|72.90|So instead of four separate files, DropPDF puts every photo into one PDF,
+sub|73.20|75.87|one page per photo, in the right order.
+
+# 5. PDF → Word (1:09.0–1:26.4) — 1:14.4 Word, 1:19.4 입력
+clip|78.92|95.19|69.21
+sub|79.00|80.86|The brochure is now a Word document.
+sub|81.75|83.63|Here's a quick preview in the Library,
+sub|84.24|86.23|and here it is open in Microsoft Word.
+sub|87.15|88.85|It's not just a picture of the page.
+sub|89.05|91.65|I can click into the heading and keep typing,
+sub|92.36|95.11|while the photos and background stay right where they were.
+
+# 6. PowerPoint (1:26.4–1:43.9) — "I just … switch" 사이의 1.5초 쉼은 0.25초로 줄임, 1:39.6 PowerPoint 화면
+clip|98.43|103.84|86.62
+clip|105.15|115.96|92.12
+sub|98.51|101.70|The same brochure can also become slides.
+sub|102.20|108.85|I just switch the format to PowerPoint and hit Convert again,
+sub|108.90|111.76|with no need to upload anything twice.
+sub|112.58|115.88|And here's the brochure as a PowerPoint slide.
+
+# 7. Library (1:43.9–2:17.8) — 1:51 검색, 1:55 View, 1:59 Edit, 2:06 Convert again, 2:13 Delete
+clip|119.56|152.33|104.07
+sub|119.64|126.11|Every result is saved in the Library, so it's still here even after I close the browser.
+sub|126.83|130.20|I can search to find a file quickly,
+sub|130.30|132.90|open a preview without downloading it,
+sub|133.00|137.70|and rename a file or add a memo so I can remember what it's for.
+sub|138.90|141.50|If I need another format later,
+sub|141.90|144.65|Convert again sends the original back to the list,
+sub|145.30|146.95|so I don't have to dig it up again.
+sub|147.82|149.85|Anything I don't need is one click to delete,
+sub|149.95|152.25|and Delete all clears the whole library.
+
+# 8. Wrap-up (2:17.8–2:30.8) — 2:25.3 끝 화면
+clip|154.56|161.72|137.97
+clip|168.96|170.70|145.95
+clip|171.28|172.43|148.35
+sub|154.64|159.40|Okay, so that's DropPDF: drop in your files, pick a format,
+sub|159.50|161.64|and keep everything organized in one place.
+sub|169.04|170.62|We hope it saves you some time.
+sub|171.36|172.35|Thank you for watching.

@@ -1,40 +1,42 @@
-# 시작초|끝초|자막 — make-subtitles.ps1이 이 파일로 video/DropPDF-demo.srt와 자막 영상을 만든다 (편집본 2:55 기준, 초당 12자 안팎)
-0.5|4.9|Hi, we're Hyeonmin and Jaewu, and this is DropPDF.
-5.0|8.4|It turns your files into PDFs,
-8.5|14.4|and turns PDFs back into Word or PowerPoint, all right in your browser.
-14.5|20.2|There's nothing to install, and your files never leave your computer.
-20.8|26.7|Let's start by dragging in a few files: a Word report, an Excel sheet,
-26.8|30.7|a ZIP full of trip photos, and a PDF brochure.
-30.8|35.0|Each row shows what the file will turn into.
-35.1|40.6|Since the brochure is already a PDF, I get to choose what it becomes:
-40.7|43.9|Word, PowerPoint, images, or plain text.
-44.3|49.1|If I only need one file, I just click Convert on that row.
-49.2|52.0|In a moment, the report is saved,
-52.1|55.0|and here's the PDF it made,
-55.1|59.6|with the table and layout just like the original.
-60.3|63.8|For everything else, I click Convert all.
-63.9|66.8|My favorite part is the photo ZIP.
-66.9|72.8|Instead of four separate files, DropPDF puts every photo into one PDF,
-72.9|77.2|one page per photo, in the right order.
-77.8|81.0|The brochure is now a Word document.
-81.1|87.3|Here's a quick preview in the Library,
-87.6|91.0|and here it is open in Microsoft Word.
-91.1|94.2|It's not just a picture of the page.
-94.3|98.3|I can click into the heading and keep typing,
-98.4|103.2|while the photos and background stay right where they were.
-103.8|107.3|The same brochure can also become slides.
-107.4|112.6|I just switch the format to PowerPoint and hit Convert again,
-112.7|115.9|with no need to upload anything twice.
-116.0|120.7|And here's the brochure as a PowerPoint slide.
-121.3|128.6|Every result is saved in the Library, so it's still here even after I close the browser.
-128.7|131.9|I can search to find a file quickly,
-132.0|137.9|open a preview without downloading it,
-138.4|143.8|and rename a file or add a memo so I remember what it's for.
-145.3|152.2|If I need another format later, Convert again sends the original back to the list,
-152.3|155.0|so I don't have to dig it up again.
-155.1|158.9|Anything I don't need is one click to delete,
-159.0|162.3|and Delete all clears the whole library.
-162.8|167.3|So that's DropPDF: drop in your files, pick a format,
-167.4|171.0|and keep everything organized in one place.
-171.1|173.6|We hope it saves you some time.
-173.7|175.3|Thanks for watching!
+# 시작초|끝초|자막 — make-narration.ps1이 narration-plan.txt에서 만든다 (직접 고치지 말 것)
+0.60|4.20|Hi, we're Hyeonmin and Jaewu, and this is DropPDF.
+4.39|6.40|It turns your files into PDFs,
+6.50|11.16|and turns PDFs back into Word or PowerPoint, all right in your browser.
+11.81|16.06|There's nothing to install, and your files never leave your computer.
+17.00|19.92|Let's start by dragging in a few files:
+20.02|22.60|a Word report, an Excel sheet,
+22.74|26.66|a ZIP full of trip photos, and a PDF brochure.
+27.25|30.51|Each row shows what the file will turn into.
+31.00|35.05|Since the brochure is already a PDF, I get to choose what it becomes.
+35.15|39.72|It can be Word, PowerPoint, images, or a plain text file.
+40.20|44.31|If I only need one file, I can just click Convert on that row.
+44.71|46.99|In a moment, the report is saved,
+47.11|49.27|and here's the PDF it made.
+49.72|53.76|You can see the table and layout, just like the original.
+54.36|55.93|For everything else,
+56.19|58.31|you can click Convert all.
+59.46|65.32|So instead of four separate files, DropPDF puts every photo into one PDF,
+65.42|68.69|one page per photo, in the right order.
+69.29|71.75|The brochure is now a Word document.
+72.04|74.43|Here's a quick preview in the Library,
+74.53|77.12|and here it is open in Microsoft Word.
+77.44|79.24|It's not just a picture of the page.
+79.34|82.54|I can click into the heading and keep typing,
+82.65|86.00|while the photos and background stay right where they were.
+86.70|90.29|The same brochure can also become slides.
+90.39|95.77|I just switch the format to PowerPoint and hit Convert again,
+95.87|99.33|with no need to upload anything twice.
+99.55|103.45|And here's the brochure as a PowerPoint slide.
+104.15|111.22|Every result is saved in the Library, so it's still here even after I close the browser.
+111.34|114.71|I can search to find a file quickly,
+114.81|117.41|open a preview without downloading it,
+117.51|122.81|and rename a file or add a memo so I can remember what it's for.
+123.41|126.31|If I need another format later,
+126.41|129.71|Convert again sends the original back to the list,
+129.81|132.06|so I don't have to dig it up again.
+132.33|134.36|Anything I don't need is one click to delete,
+134.46|137.36|and Delete all clears the whole library.
+138.05|142.81|Okay, so that's DropPDF: drop in your files, pick a format,
+142.91|145.65|and keep everything organized in one place.
+146.03|148.21|We hope it saves you some time.
+148.43|150.02|Thank you for watching.

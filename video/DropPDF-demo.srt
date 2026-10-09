@@ -1,156 +1,164 @@
 1
-00:00:00,500 --> 00:00:04,900
+00:00:00,600 --> 00:00:04,200
 Hi, we're Hyeonmin and Jaewu, and this is DropPDF.
 
 2
-00:00:05,000 --> 00:00:08,400
+00:00:04,390 --> 00:00:06,400
 It turns your files into PDFs,
 
 3
-00:00:08,500 --> 00:00:14,400
+00:00:06,500 --> 00:00:11,160
 and turns PDFs back into Word or PowerPoint, all right in your browser.
 
 4
-00:00:14,500 --> 00:00:20,200
+00:00:11,810 --> 00:00:16,060
 There's nothing to install, and your files never leave your computer.
 
 5
-00:00:20,800 --> 00:00:26,700
-Let's start by dragging in a few files: a Word report, an Excel sheet,
+00:00:17,000 --> 00:00:19,920
+Let's start by dragging in a few files:
 
 6
-00:00:26,800 --> 00:00:30,700
-a ZIP full of trip photos, and a PDF brochure.
+00:00:20,020 --> 00:00:22,600
+a Word report, an Excel sheet,
 
 7
-00:00:30,800 --> 00:00:35,000
-Each row shows what the file will turn into.
+00:00:22,739 --> 00:00:26,660
+a ZIP full of trip photos, and a PDF brochure.
 
 8
-00:00:35,100 --> 00:00:40,600
-Since the brochure is already a PDF, I get to choose what it becomes:
+00:00:27,250 --> 00:00:30,510
+Each row shows what the file will turn into.
 
 9
-00:00:40,700 --> 00:00:43,900
-Word, PowerPoint, images, or plain text.
+00:00:31,000 --> 00:00:35,050
+Since the brochure is already a PDF, I get to choose what it becomes.
 
 10
-00:00:44,300 --> 00:00:49,100
-If I only need one file, I just click Convert on that row.
+00:00:35,150 --> 00:00:39,720
+It can be Word, PowerPoint, images, or a plain text file.
 
 11
-00:00:49,200 --> 00:00:52,000
-In a moment, the report is saved,
+00:00:40,200 --> 00:00:44,310
+If I only need one file, I can just click Convert on that row.
 
 12
-00:00:52,100 --> 00:00:55,000
-and here's the PDF it made,
+00:00:44,710 --> 00:00:46,990
+In a moment, the report is saved,
 
 13
-00:00:55,100 --> 00:00:59,600
-with the table and layout just like the original.
+00:00:47,110 --> 00:00:49,270
+and here's the PDF it made.
 
 14
-00:01:00,300 --> 00:01:03,800
-For everything else, I click Convert all.
+00:00:49,720 --> 00:00:53,760
+You can see the table and layout, just like the original.
 
 15
-00:01:03,900 --> 00:01:06,800
-My favorite part is the photo ZIP.
+00:00:54,360 --> 00:00:55,930
+For everything else,
 
 16
-00:01:06,900 --> 00:01:12,800
-Instead of four separate files, DropPDF puts every photo into one PDF,
+00:00:56,190 --> 00:00:58,310
+you can click Convert all.
 
 17
-00:01:12,900 --> 00:01:17,200
-one page per photo, in the right order.
+00:00:59,460 --> 00:01:05,319
+So instead of four separate files, DropPDF puts every photo into one PDF,
 
 18
-00:01:17,800 --> 00:01:21,000
-The brochure is now a Word document.
+00:01:05,420 --> 00:01:08,690
+one page per photo, in the right order.
 
 19
-00:01:21,100 --> 00:01:27,300
-Here's a quick preview in the Library,
+00:01:09,290 --> 00:01:11,750
+The brochure is now a Word document.
 
 20
-00:01:27,600 --> 00:01:31,000
-and here it is open in Microsoft Word.
+00:01:12,040 --> 00:01:14,430
+Here's a quick preview in the Library,
 
 21
-00:01:31,100 --> 00:01:34,200
-It's not just a picture of the page.
+00:01:14,530 --> 00:01:17,120
+and here it is open in Microsoft Word.
 
 22
-00:01:34,300 --> 00:01:38,300
-I can click into the heading and keep typing,
+00:01:17,440 --> 00:01:19,240
+It's not just a picture of the page.
 
 23
-00:01:38,400 --> 00:01:43,200
-while the photos and background stay right where they were.
+00:01:19,340 --> 00:01:22,540
+I can click into the heading and keep typing,
 
 24
-00:01:43,800 --> 00:01:47,300
-The same brochure can also become slides.
+00:01:22,650 --> 00:01:26,000
+while the photos and background stay right where they were.
 
 25
-00:01:47,400 --> 00:01:52,600
-I just switch the format to PowerPoint and hit Convert again,
+00:01:26,700 --> 00:01:30,290
+The same brochure can also become slides.
 
 26
-00:01:52,700 --> 00:01:55,900
-with no need to upload anything twice.
+00:01:30,390 --> 00:01:35,770
+I just switch the format to PowerPoint and hit Convert again,
 
 27
-00:01:56,000 --> 00:02:00,700
-And here's the brochure as a PowerPoint slide.
+00:01:35,870 --> 00:01:39,330
+with no need to upload anything twice.
 
 28
-00:02:01,300 --> 00:02:08,600
-Every result is saved in the Library, so it's still here even after I close the browser.
+00:01:39,550 --> 00:01:43,450
+And here's the brochure as a PowerPoint slide.
 
 29
-00:02:08,700 --> 00:02:11,900
-I can search to find a file quickly,
+00:01:44,150 --> 00:01:51,220
+Every result is saved in the Library, so it's still here even after I close the browser.
 
 30
-00:02:12,000 --> 00:02:17,900
-open a preview without downloading it,
+00:01:51,340 --> 00:01:54,710
+I can search to find a file quickly,
 
 31
-00:02:18,400 --> 00:02:23,800
-and rename a file or add a memo so I remember what it's for.
+00:01:54,810 --> 00:01:57,410
+open a preview without downloading it,
 
 32
-00:02:25,300 --> 00:02:32,200
-If I need another format later, Convert again sends the original back to the list,
+00:01:57,510 --> 00:02:02,810
+and rename a file or add a memo so I can remember what it's for.
 
 33
-00:02:32,300 --> 00:02:35,000
-so I don't have to dig it up again.
+00:02:03,410 --> 00:02:06,310
+If I need another format later,
 
 34
-00:02:35,100 --> 00:02:38,900
-Anything I don't need is one click to delete,
+00:02:06,410 --> 00:02:09,710
+Convert again sends the original back to the list,
 
 35
-00:02:39,000 --> 00:02:42,300
-and Delete all clears the whole library.
+00:02:09,810 --> 00:02:12,060
+so I don't have to dig it up again.
 
 36
-00:02:42,800 --> 00:02:47,300
-So that's DropPDF: drop in your files, pick a format,
+00:02:12,330 --> 00:02:14,360
+Anything I don't need is one click to delete,
 
 37
-00:02:47,400 --> 00:02:51,000
-and keep everything organized in one place.
+00:02:14,460 --> 00:02:17,360
+and Delete all clears the whole library.
 
 38
-00:02:51,100 --> 00:02:53,600
-We hope it saves you some time.
+00:02:18,050 --> 00:02:22,810
+Okay, so that's DropPDF: drop in your files, pick a format,
 
 39
-00:02:53,700 --> 00:02:55,300
-Thanks for watching!
+00:02:22,910 --> 00:02:25,650
+and keep everything organized in one place.
+
+40
+00:02:26,030 --> 00:02:28,210
+We hope it saves you some time.
+
+41
+00:02:28,430 --> 00:02:30,020
+Thank you for watching.
 
