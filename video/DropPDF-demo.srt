@@ -1,0 +1,136 @@
+1
+00:00:00,500 --> 00:00:03,500
+Hi, we're Hyeonmin Choi and Jaewu Yoo.
+
+2
+00:00:03,600 --> 00:00:09,800
+This is DropPDF, a web app that converts files to and from PDF right in your browser.
+
+3
+00:00:09,900 --> 00:00:14,500
+Nothing to install, and nothing is uploaded.
+
+4
+00:00:15,500 --> 00:00:20,500
+I just drag my files in: a Word report, an Excel sheet,
+
+5
+00:00:20,600 --> 00:00:24,500
+a ZIP of trip photos, and a PDF brochure.
+
+6
+00:00:24,600 --> 00:00:28,500
+Each row shows what it will become.
+
+7
+00:00:28,600 --> 00:00:31,500
+For a PDF, I pick the output format right on the row:
+
+8
+00:00:31,600 --> 00:00:34,000
+Word, PowerPoint, images, or text.
+
+9
+00:00:34,500 --> 00:00:36,500
+I can convert just one file.
+
+10
+00:00:36,600 --> 00:00:39,600
+I click Convert on the report, and it's saved right away.
+
+11
+00:00:39,700 --> 00:00:48,500
+Here's the PDF it made.
+
+12
+00:00:49,500 --> 00:00:55,200
+Or I convert everything at once with Convert all.
+
+13
+00:00:55,400 --> 00:01:00,000
+The ZIP of photos became a single PDF,
+
+14
+00:01:00,100 --> 00:01:04,500
+one photo per page.
+
+15
+00:01:05,500 --> 00:01:09,000
+The brochure PDF became a Word file.
+
+16
+00:01:09,100 --> 00:01:15,200
+Here's the preview,
+
+17
+00:01:15,400 --> 00:01:17,800
+and here it is open in Word.
+
+18
+00:01:17,900 --> 00:01:21,400
+I can type right here.
+
+19
+00:01:21,500 --> 00:01:24,300
+The text is still editable,
+
+20
+00:01:24,400 --> 00:01:27,300
+and the photos and background stay in place.
+
+21
+00:01:27,500 --> 00:01:29,500
+Need slides instead?
+
+22
+00:01:29,600 --> 00:01:32,500
+I switch the format to PowerPoint and click Convert again,
+
+23
+00:01:32,600 --> 00:01:34,000
+with no re-upload.
+
+24
+00:01:34,100 --> 00:01:41,400
+Here it is in PowerPoint.
+
+25
+00:01:41,800 --> 00:01:45,000
+Every result is saved in the Library, even after I close the browser.
+
+26
+00:01:45,100 --> 00:01:47,500
+I can search and filter,
+
+27
+00:01:47,600 --> 00:01:53,500
+preview a file,
+
+28
+00:01:53,600 --> 00:02:00,500
+rename it and add a memo,
+
+29
+00:02:00,600 --> 00:02:08,100
+send the original back to convert into another format,
+
+30
+00:02:08,200 --> 00:02:12,000
+and delete what I don't need.
+
+31
+00:02:12,100 --> 00:02:15,400
+There's also Delete all to clear everything.
+
+32
+00:02:16,000 --> 00:02:20,500
+That's DropPDF: drop your files, convert,
+
+33
+00:02:20,600 --> 00:02:25,000
+and keep everything in one library.
+
+34
+00:02:26,000 --> 00:02:30,000
+Thanks for watching!
+

@@ -1,0 +1,35 @@
+# 시작초|끝초|자막 — make-subtitles.ps1이 이 파일로 video/DropPDF-demo.srt를 만든다 (편집본 2:33 기준)
+0.5|3.5|Hi, we're Hyeonmin Choi and Jaewu Yoo.
+3.6|9.8|This is DropPDF, a web app that converts files to and from PDF right in your browser.
+9.9|14.5|Nothing to install, and nothing is uploaded.
+15.5|20.5|I just drag my files in: a Word report, an Excel sheet,
+20.6|24.5|a ZIP of trip photos, and a PDF brochure.
+24.6|28.5|Each row shows what it will become.
+28.6|31.5|For a PDF, I pick the output format right on the row:
+31.6|34.0|Word, PowerPoint, images, or text.
+34.5|36.5|I can convert just one file.
+36.6|39.6|I click Convert on the report, and it's saved right away.
+39.7|48.5|Here's the PDF it made.
+49.5|55.2|Or I convert everything at once with Convert all.
+55.4|60.0|The ZIP of photos became a single PDF,
+60.1|64.5|one photo per page.
+65.5|69.0|The brochure PDF became a Word file.
+69.1|75.2|Here's the preview,
+75.4|77.8|and here it is open in Word.
+77.9|81.4|I can type right here.
+81.5|84.3|The text is still editable,
+84.4|87.3|and the photos and background stay in place.
+87.5|89.5|Need slides instead?
+89.6|92.5|I switch the format to PowerPoint and click Convert again,
+92.6|94.0|with no re-upload.
+94.1|101.4|Here it is in PowerPoint.
+101.8|105.0|Every result is saved in the Library, even after I close the browser.
+105.1|107.5|I can search and filter,
+107.6|113.5|preview a file,
+113.6|120.5|rename it and add a memo,
+120.6|128.1|send the original back to convert into another format,
+128.2|132.0|and delete what I don't need.
+132.1|135.4|There's also Delete all to clear everything.
+136.0|140.5|That's DropPDF: drop your files, convert,
+140.6|145.0|and keep everything in one library.
+146.0|150.0|Thanks for watching!

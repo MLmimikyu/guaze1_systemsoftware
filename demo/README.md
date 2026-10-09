@@ -50,7 +50,7 @@ powershell.exe -ExecutionPolicy Bypass -File demo/make-samples.ps1 demo
 > Or I convert everything at once with Convert all. The ZIP of photos became a single PDF, one photo per page.
 
 **5. PDF → Word** (1:05–1:27) — 보관함 미리보기 → 1:15 Word로 열고 "for summer" 입력
-> The brochure PDF became a Word file. Here's the preview, and here it is open in Word. The photos and background stay in place, and the text is still editable. I can type right here.
+> The brochure PDF became a Word file. Here's the preview, and here it is open in Word. I can type right here. The text is still editable, and the photos and background stay in place.
 
 **6. PowerPoint** (1:27–1:42) — 형식을 PowerPoint로 바꾸고 Convert 클릭 → 1:34 PowerPoint로 연 화면
 > Need slides instead? I switch the format to PowerPoint and click Convert again, with no re-upload. Here it is in PowerPoint.
@@ -67,6 +67,8 @@ powershell.exe -ExecutionPolicy Bypass -File demo/make-samples.ps1 demo
 
 **8. Wrap-up** (2:16–2:33) — 2:26부터 끝 화면
 > That's DropPDF: drop your files, convert, and keep everything in one library. Thanks for watching!
+
+영어 자막은 `demo/subtitles.txt`(시간|문장)에 있고 `pwsh demo/make-subtitles.ps1`로 `video/DropPDF-demo.srt`와 자막을 입힌 `video/DropPDF-demo-subtitled.mp4`를 만든다. 대본을 고치면 이 파일도 같이 고칠 것.
 
 GenAI(Claude Code) 사용은 포스터 Tools에 적혀 있으므로 영상에서는 말하지 않는다.
 
